@@ -216,6 +216,7 @@ class Instrumenter(private val stagingDir: Path, private val onlyCoverAppPackage
      */
     @Throws(IOException::class)
     private fun configSoot(processingApk: Path, sootOutputDir: Path) {
+        Options.v().set_whole_program(true)
         Options.v().set_allow_phantom_refs(true)
         Options.v().set_src_prec(Options.src_prec_apk)
         Options.v().set_output_dir(sootOutputDir.toString())
@@ -239,7 +240,7 @@ class Instrumenter(private val stagingDir: Path, private val onlyCoverAppPackage
         processDirs.add(resourceDir.toString())
 
         // Consider using multiplex, but it crashed for some apps
-        // Options.v().set_process_multiple_dex(true)
+        Options.v().set_process_multiple_dex(true)
         Options.v().set_process_dir(processDirs)
 
         Options.v().set_android_jars("ANDROID_HOME".asEnvDir.resolve("platforms").toString())
