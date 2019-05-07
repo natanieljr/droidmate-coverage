@@ -234,7 +234,6 @@ class Instrumenter(private val stagingDir: Path, private val onlyCoverAppPackage
             .resolve(Runtime.PACKAGE.replace('.', '/'))
 
         helperClasses
-            .filter { !it.contains("\$") }
             .forEach { Resource("$it.class").extractTo(helperDir) }
 
         processDirs.add(resourceDir.toString())
