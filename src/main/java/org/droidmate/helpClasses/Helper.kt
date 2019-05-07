@@ -38,6 +38,7 @@ import java.io.IOException
 object Helper {
 
     private var permissions: Set<String>? = null
+    private var targetApi: Int = -1
 
     fun initializeManifestInfo(apkPath: String) {
         var processMan: ProcessManifest? = null
@@ -50,9 +51,12 @@ object Helper {
         }
 
         permissions = processMan!!.permissions
+        targetApi = processMan.targetSdkVersion()
     }
 
     fun hasPermission(permission: String): Boolean {
         return permissions!!.contains(permission)
     }
+
+    fun getTargetApi(): Int = targetApi
 }

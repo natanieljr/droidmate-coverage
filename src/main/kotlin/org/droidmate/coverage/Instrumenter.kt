@@ -38,6 +38,7 @@ import org.droidmate.misc.DroidmateException
 import org.droidmate.misc.EnvironmentConstants
 import org.droidmate.misc.JarsignerWrapper
 import org.droidmate.misc.SysCmdExecutor
+import org.jf.dexlib2.Opcodes
 import org.json.JSONObject
 import org.slf4j.LoggerFactory
 import soot.Body
@@ -239,7 +240,14 @@ class Instrumenter(private val stagingDir: Path, private val onlyCoverAppPackage
         processDirs.add(resourceDir.toString())
 
         // Consider using multiplex, but it crashed for some apps
-        Options.v().set_process_multiple_dex(true)
+        // Disable Multidex for pre-art android versions, so that we can at least try to analyze the main dex file
+        // Most of the apps will probably crash during execution without Multidex, due to missing classes..
+        if (Opcodes.forApi(Helper.getTargetApi()).isArt) {
+            Options.v().set_process_multiple_dex(true)
+        } else {
+            log.warn("App's version is pre ART, disabling multi-dex support to at least get possibly working apk.")
+        }
+
         Options.v().set_process_dir(processDirs)
 
         Options.v().set_android_jars("ANDROID_HOME".asEnvDir.resolve("platforms").toString())
