@@ -60,7 +60,7 @@ constructor(private val originalApkPath: Path, private val apkContentDir: Path, 
         val stopWatch = Stopwatch.createStarted()
         // Added -r, otherwise some apps invoked:
         // brut.androlib.AndrolibException: brut.common.BrutException: could not exec
-        invokeApkTool("-s", "-f", "-r", "d", "-o", apkContentDir.toString(), originalApkPath.toString())
+        invokeApkTool("-s", "-f", "d", "-o", apkContentDir.toString(), originalApkPath.toString())
         log.info("Apk tool finished after {}", stopWatch)
     }
 

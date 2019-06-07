@@ -106,7 +106,7 @@ class ManifestInstrumenter(pathToAndroidManifest: Path) {
             nav.toElement(VTDNav.LAST_CHILD)
 
             for (additionalPermission in Sets.difference(additionalPermissions, existingPermissions)) {
-                modifier.insertAfterElement(String.format("\n<uses-permission android:name=\"%s\" />\n", additionalPermission))
+                modifier.insertAfterElement(String.format("%n<uses-permission android:name=\"%s\" />%n", additionalPermission))
             }
 
             modifier.output(filePath)
